@@ -59,6 +59,7 @@
  * For example, check out Craft Blueprint for Quassel-IRC or KDE Connect.
 */
 
+
 NotifyBySnore::NotifyBySnore(QObject* parent) :
     KNotificationPlugin(parent)
 {
@@ -153,11 +154,11 @@ void NotifyBySnore::notifyDeferred(KNotification* notification)
 
     arguments << QStringLiteral("-t");
     if (!notification->title().isEmpty()) {
-        arguments << notification->title();
+        arguments << stripRichText(notification->title());
     } else {
         arguments << qApp->applicationDisplayName();
     }
-    arguments << QStringLiteral("-m") << notification->text();
+    arguments << QStringLiteral("-m") << stripRichText(notification->text());
     const QString iconPath = m_iconDir.path() + QLatin1Char('/')
                     + QString::number(notification->id()) + QStringLiteral(".png");
     if (!notification->pixmap().isNull()) {
